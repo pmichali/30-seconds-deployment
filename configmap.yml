@@ -1,0 +1,14 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: news-config
+data:
+  config.yml: |-
+    server:
+     idletimeout: 15s
+     readtimeout: 15s
+     writetimeout: 15s
+     addr: ":8080"
+
+    database:
+     dsn: "proxyuser:password@(localhost:3306)/news"

@@ -4,6 +4,9 @@ import (
 	"flag"
 	"log"
 	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
 	"encoding/json"
 	"time"
 	"io/ioutil"
@@ -46,14 +49,28 @@ func load(file string) (cfg Config, err error) {
 }
 
 func main() {
+	var gracefulStop = make(chan os.Signal)
+	signal.Notify(gracefulStop, syscall.SIGTERM)
+	signal.Notify(gracefulStop, syscall.SIGINT)
+
+	go func() {
+	   sig := <-gracefulStop
+	   log.Printf("caught sig: %+v", sig)
+           os.Exit(0)
+        }()
+	
+	log.Printf("Starting Server")
+	
 	filename := flag.String("config", "config.yml", "Configuration file")
 	flag.Parse()
 
+	log.Printf("Config file is %v", filename)
 	config, err := load(*filename)
 	if err != nil {
 		log.Fatalf("failed to load configuration: %v", err)
 	}
 
+	log.Printf("Config is %v", config)
 	handler := http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
 		rw.WriteHeader(http.StatusOK)
 
