@@ -17,7 +17,7 @@ spec:
         imagePullPolicy: Always
         command:
         ports:
-          - containerPort: 8080
+          - containerPort: 8082
         volumeMounts:
           - name: news-config
             mountPath: /etc/news/
@@ -35,7 +35,7 @@ spec:
   selector:
     app: news-service
   ports:
-  - nodePort: 31980
+  - nodePort: 32000
     protocol: TCP
-    port: 80
-    targetPort: 8080
+    port: 8082
+    targetPort: 8082

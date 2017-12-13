@@ -8,7 +8,7 @@ data:
      idletimeout: 15s
      readtimeout: 15s
      writetimeout: 15s
-     addr: ":8080"
+     addr: ":8082"
 
     database:
      dsn: "proxyuser:password@(localhost:3306)/news"
